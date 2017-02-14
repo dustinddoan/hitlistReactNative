@@ -9,12 +9,20 @@ import {
 
 // import {} from '../actions'
 import Login from './Login'
+import Main from './Main'
+
 var App = React.createClass({
 
   render() {
-    return (
-      <Login />
-    )
+    if(this.props.user_id) {
+      return (
+        <Main />
+      )
+    } else {
+      return (
+        <Login />
+      )
+    }
   }
 })
 
@@ -26,6 +34,10 @@ const styles = StyleSheet.create({
   }
 })
 
+var mapStateToProps = (state) => {
+  return {
+    user_id: state.auth.user_id
+  }
+}
 
-
-module.exports = App
+module.exports = connect(mapStateToProps)(App);
