@@ -10,19 +10,28 @@ import {
 // import {} from '../actions'
 import Login from './Login'
 import Main from './Main'
+import AlertContainer from './alerts/AlertContainer'
 
 var App = React.createClass({
-
   render() {
-    if(this.props.user_id) {
-      return (
-        <Main />
-      )
-    } else {
-      return (
-        <Login />
-      )
+    var renderMainView = () => {
+      if(this.props.user_id) {
+        return (
+          <Main />
+        )
+      } else {
+        return (
+          <Login />
+        )
+      }
     }
+
+    return (
+      <View style={{flex: 1}}>
+        {renderMainView()}
+        <AlertContainer />
+      </View>
+    )
   }
 })
 
@@ -36,7 +45,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = (state) => {
   return {
-    user_id: state.auth.user_id
+    user_id: state.auth.user_id //state from indexReducer
   }
 }
 
