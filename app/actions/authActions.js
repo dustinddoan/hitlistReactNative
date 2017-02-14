@@ -3,6 +3,9 @@ import axios from 'axios'
 import {SIGNIN_URL, SIGNUP_URL} from '../api'
 import {addAlert} from './alertsActions'
 
+// NOT return an object
+// return a function called THUNK
+// which will be hanled in store/index.js
 exports.loginUser = (email, password) => {
   return function(dispatch) {
     return axios.post(SIGNIN_URL, {email, password})
@@ -29,7 +32,7 @@ exports.signupUser = (email, password) => {
   }
 }
 
-exports.authUser = (user_id) => {
+authUser = (user_id) => {
   return {
     type: 'AUTH_USER',
     user_id
