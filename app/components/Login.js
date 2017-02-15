@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import {loginUser, signupUser, addAlert} from '../actions';
+import {loginUser, signupUser} from '../actions';
 
 var Login = React.createClass({
   getInitialState: function() {

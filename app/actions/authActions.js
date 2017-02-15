@@ -12,7 +12,7 @@ exports.loginUser = (email, password) => {
       .then((response) => {
         var {user_id, token} = response.data
         dispatch(authUser(user_id))
-        dispatch(addAlert(token))
+        // dispatch(addAlert(token))
       }).catch((error) => {
         dispatch(addAlert('Could not log in'))
       })
@@ -25,7 +25,7 @@ exports.signupUser = (email, password) => {
       .then((response) => {
         var {user_id, token} = response.data
         dispatch(authUser(user_id))
-        dispatch(addAlert(token))
+        // dispatch(addAlert(token))
       }).catch((error) => {
         dispatch(addAlert('Could not sign up'))
       })

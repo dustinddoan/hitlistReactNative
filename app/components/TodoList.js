@@ -10,8 +10,9 @@ import {
   ScrollView,
   RefreshControl
 } from 'react-native';
-import {unauthUser} from '../actions'
 
+import {unauthUser} from '../actions'
+import NewTodo from './NewTodo'
 
 //TodoItem
 var TodoItem = React.createClass({
@@ -35,7 +36,11 @@ var TodoList = React.createClass({
     this.props.dispatch(unauthUser)
   },
   addNewTodo() {
-
+    this.props.navigator.push({
+      component: NewTodo,
+      title: 'New Todo',
+      navigationBarHidden: true
+    })
   },
   onRefresh() {
 
@@ -55,7 +60,7 @@ var TodoList = React.createClass({
       <View style={styles.container}>
         <View style={styles.topBar}>
          <TouchableOpacity onPress={this.onLogout}>
-           <Icon name="x" size={20} color="white"/>
+           <Icon name="sign-out" size={20} color="white"/>
          </TouchableOpacity>
          <Text style={styles.title}>
            To-Do List
