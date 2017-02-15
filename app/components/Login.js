@@ -1,6 +1,5 @@
 import React from 'react';
-import {reduxForm} from 'redux-form'
-import {connect} from 'react-redux'
+import {reduxForm} from 'redux-form';
 import {
   StyleSheet,
   Text,
@@ -9,19 +8,38 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import {loginUser, signupUser, addAlert} from '../actions'
+import {loginUser, signupUser, addAlert} from '../actions';
 
 var Login = React.createClass({
+  getInitialState: function() {
+    return {
+      loading: false
+    }
+  },
   onSignIn: function() {
-    var {dispatch, fields: {email, password}} = this.props
-    dispatch(loginUser(email.value, password.value))
+    var {dispatch, fields: {email, password}} = this.props;
+    this.setState({
+      loading: true
+    });
+    dispatch(loginUser(email.value, password.value)).then(() => {
+      this.setState({
+        loading: false
+      });
+    });
   },
   onSignUp: function() {
-    var {dispatch, fields: {email, password}} = this.props
-    dispatch(signupUser(email.value, password.value))
+    var {dispatch, fields: {email, password}} = this.props;
+    this.setState({
+      loading: true
+    });
+    dispatch(signupUser(email.value, password.value)).then(() => {
+      this.setState({
+        loading: false
+      });
+    });
   },
   render() {
-    var {handleSubmit, fields: {email, password}} = this.props
+    var {fields: {email, password}} = this.props;
 
     var renderError = (field) => {
       if (field.touched && field.error) {
@@ -31,48 +49,58 @@ var Login = React.createClass({
       }
     }
 
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>
-            To-Do
+    if (this.state.loading) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>
+            Login...
           </Text>
         </View>
-        <View style={styles.field}>
-          <TextInput
-            {...email}
-            placeholder="email"
-            style={styles.textInput}/>
-          <View>
-            {renderError(email)}
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>
+              To-Do
+            </Text>
           </View>
-        </View>
-        <View style={styles.field}>
-          <TextInput
-            {...password}
-            placeholder="password"
-            style={styles.textInput}/>
-          <View>
+          <View style={styles.field}>
+            <TextInput
+              {...email}
+              placeholder="Email"
+              style={styles.textInput}/>
+            <View>
+              {renderError(email)}
+            </View>
+          </View>
+          <View style={styles.field}>
+            <TextInput
+              {...password}
+              placeholder="Password"
+              style={styles.textInput}/>
+            <View>
             {renderError(password)}
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this.onSignIn}>
+              <Text style={styles.button}>
+                Sign In
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onSignUp}>
+              <Text style={styles.button}>
+                Sign Up
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.onSignIn}>
-            <Text style={styles.button}>
-              Sign In
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onSignUp}>
-            <Text style={styles.button}>
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+      );
+    }
 
-      </View>
-    )
   }
-})
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -115,21 +143,15 @@ const styles = StyleSheet.create({
   formError: {
     color: 'red'
   }
-})
+});
 
 var validate = (formProps) => {
-  var errors = {}
-
-  return errors
-}
-
-var validate = (formProps) => {
-  var errors = {}
+  var errors = {};
   if (!formProps.email) {
-    errors.email = 'Please enter email'
+    errors.email = "Please enter an email.";
   }
   if (!formProps.password) {
-    errors.password = 'Please enter password'
+    errors.password = "Please enter a password.";
   }
   return errors;
 }
@@ -138,4 +160,4 @@ module.exports = reduxForm({
   form: 'login',
   fields: ['email', 'password'],
   validate: validate
-}, null, null)(Login)
+}, null, null)(Login);
