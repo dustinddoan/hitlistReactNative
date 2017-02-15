@@ -6,18 +6,51 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 import {unauthUser} from '../actions'
 
+
+//TodoItem
+var TodoItem = React.createClass({
+  render() {
+    return (
+      <View style={styles.todoContainer}>
+        <Text>{this.props.text}</Text>
+      </View>
+    )
+  }
+})
+
+//TodoList components
 var TodoList = React.createClass({
+  getInitialState() {
+    return {
+      refreshing: false
+    }
+  },
   onLogout() {
     this.props.dispatch(unauthUser)
   },
   addNewTodo() {
 
   },
+  onRefresh() {
+
+  },
   render() {
+    console.log(this.props.todos);
+    //return list of components
+    var renderTodos = () => {
+      return this.props.todos.map((todo) => {
+        return (
+          <TodoItem key={todo._id} text={todo.text} id={todo._id}/>
+        )
+      })
+    }
+    //
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -31,6 +64,16 @@ var TodoList = React.createClass({
            <Icon name="plus" size={20} color="white"/>
          </TouchableOpacity>
        </View>
+       <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}/>
+          }
+          automaticallyAdjustContentInsets={false}
+          contentContainerStyle={styles.scrollViewContainer}>
+          {renderTodos()}
+        </ScrollView>
       </View>
     )
   }
@@ -67,6 +110,10 @@ const styles = StyleSheet.create({
   }
 })
 
+var mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  }
+}
 
-
-module.exports = TodoList
+module.exports = connect(mapStateToProps)(TodoList)
