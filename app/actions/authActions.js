@@ -21,14 +21,17 @@ exports.loginUser = (email, password) => {
 
 exports.signupUser = (email, password) => {
   return function(dispatch) {
-    return axios.post(SIGNUP_URL, {email, password})
-      .then((response) => {
-        var {user_id, token} = response.data
-        dispatch(authUser(user_id))
-        // dispatch(addAlert(token))
-      }).catch((error) => {
-        dispatch(addAlert('Could not sign up'))
-      })
+    return axios.post(SIGNUP_URL, {email, password}).then((response) => {
+      var {user_id, token} = response.data;
+      Keychain.setGenericPassword(user_id, token)
+        .then(function() {
+          dispatch(authUser(user_id));
+        }).catch((error) => {
+          dispatch(addAlert("Could not log in."));
+        });
+    }).catch((error) => {
+      dispatch(addAlert("Could not sign up."));
+    });
   }
 }
 

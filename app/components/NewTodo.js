@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import Icon from 'react-native-vector-icons/Octicons';
+import axios from 'axios'
 
 import {
   StyleSheet,
@@ -13,7 +14,7 @@ import {
 } from 'react-native';
 import {unauthUser} from '../actions'
 
-
+import {addTodo} from '../actions'
 
 
 //TodoList components
@@ -25,8 +26,23 @@ var NewTodo = React.createClass({
   },
   addNewTodo() {
     var {newTodoText} = this.state
+    var {dispatch} = this.props;
+
     if(newTodoText && newTodoText !== '') {
-      console.log(this.state.newTodoText);
+      // console.log(this.state.newTodoText);
+      axios.post('http://localhost:3000/v1/users/'+ '58a6222609b23368042b80dc' +'/todos',
+       {'text': this.state.newTodoText},
+       {headers: {authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGE2MjIyNjA5YjIzMzY4MDQyYjgwZGMiLCJpYXQiOjE0ODcyODI4MDQ3MTZ9.V7tFOtAOiKrX8yG-yCGUsdeUR_xPaDryJ69AFxH9o2M'}
+      }).then((response) => {
+         console.log(response.data.todos)
+         dispatch(addTodo(response.data.todos))
+         this.props.navigator.pop();
+
+       })
+       .catch((error) => {
+         console.log(error);
+       })
+
     }
 
   },
