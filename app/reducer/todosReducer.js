@@ -5,7 +5,7 @@ import uuid from 'uuid';
 //   {_id: '1233434345435', text:'dog walk'}
 // ]
 var defaultState = [
-  
+
 ]
 
 module.exports = (state=defaultState, action) => {
@@ -16,9 +16,12 @@ module.exports = (state=defaultState, action) => {
         action.newTodo
       ];
 
+    case 'SET_TODOS':
+      return action.todos;
+
     case 'REMOVE_TODO':
       return state.filter((todo) => {
-        if (todo._id === action.id) {
+        if (todo._id === action.todo_id) {
           return false;
         } else {
           return true;

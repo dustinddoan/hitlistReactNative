@@ -21,7 +21,8 @@ var Login = React.createClass({
     this.setState({
       loading: true
     });
-    dispatch(loginUser(email.value, password.value)).then(() => {
+    dispatch(loginUser(email.value, password.value)).then((data) => {
+      console.log("Resolved promise data:", data)
       this.setState({
         loading: false
       });

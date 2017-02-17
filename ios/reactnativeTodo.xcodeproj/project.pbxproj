@@ -1103,6 +1103,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.reactnativeTodo1;
 				PRODUCT_NAME = reactnativeTodo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1122,6 +1123,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.reactnativeTodo1;
 				PRODUCT_NAME = reactnativeTodo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

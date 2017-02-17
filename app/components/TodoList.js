@@ -39,7 +39,11 @@ var TodoList = React.createClass({
     this.props.navigator.push({
       component: NewTodo,
       title: 'New Todo',
-      navigationBarHidden: true
+      navigationBarHidden: true,
+      passProps: {
+        token: this.props.token,
+        user_id: this.props.user
+      }
     })
   },
   onRefresh() {

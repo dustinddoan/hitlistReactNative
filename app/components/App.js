@@ -14,6 +14,17 @@ import Main from './Main'
 import AlertContainer from './alerts/AlertContainer'
 
 var App = React.createClass({
+  setInitialState() {
+    return {
+      currentUser: null,
+      token: null
+    }
+  },
+  // login(data) {
+  //   this.setState({token: data.token, currentUser: data.user}, () => {
+  //     console.log("Current User Info from <App /> Component:", this.state)
+  //   })
+  // },
   render() {
     var renderMainView = () => {
       if(this.props.user_id) {

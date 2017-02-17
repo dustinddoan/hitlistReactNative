@@ -29,10 +29,12 @@ var NewTodo = React.createClass({
     var {dispatch} = this.props;
 
     if(newTodoText && newTodoText !== '') {
-      // console.log(this.state.newTodoText);
-      axios.post('http://localhost:3000/v1/users/'+ '58a6222609b23368042b80dc' +'/todos',
+      console.log(this.state.newTodoText)
+      console.log(this.props.token)
+      axios.post('http://localhost:3000/v1/users/'+ this.props.user_id +'/todos',
        {'text': this.state.newTodoText},
-       {headers: {authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGE2MjIyNjA5YjIzMzY4MDQyYjgwZGMiLCJpYXQiOjE0ODcyODI4MDQ3MTZ9.V7tFOtAOiKrX8yG-yCGUsdeUR_xPaDryJ69AFxH9o2M'}
+      //  {headers: {authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGE2M2E3YTNkMjMwZTA2MWY0MmEyMDgiLCJpYXQiOjE0ODcyOTQyNjI2Nzh9.cFSgUWaYyRe12ZQPtgxKf7n5J8quVMz1GiC1Xw-C8oQ'}
+       {headers: {authorization: this.props.token}
       }).then((response) => {
          console.log(response.data.todos)
          dispatch(addTodo(response.data.todos))
@@ -116,7 +118,10 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = (state) => {
   return {
-    todos: state.todos
+    todos: state.todos,
+    user_id: state.auth.user_id,
+    token: state.auth.token,
+    currentUser: state.auth.currentUser
   }
 }
 

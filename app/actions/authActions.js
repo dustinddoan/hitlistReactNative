@@ -10,9 +10,13 @@ exports.loginUser = (email, password) => {
   return function(dispatch) {
     return axios.post(SIGNIN_URL, {email, password})
       .then((response) => {
-        var {user_id, token} = response.data
-        dispatch(authUser(user_id))
-        // dispatch(addAlert(token))
+        return new Promise((resolve, reject) => {
+          var {user_id, token, user} = response.data
+          console.log("Response from ")
+          dispatch(authUser(user_id, token, user))
+          // dispatch(addAlert(token))
+          resolve({user_id, token, user})
+        })
       }).catch((error) => {
         dispatch(addAlert('Could not log in'))
       })
@@ -25,7 +29,7 @@ exports.signupUser = (email, password) => {
       var {user_id, token} = response.data;
       Keychain.setGenericPassword(user_id, token)
         .then(function() {
-          dispatch(authUser(user_id));
+          dispatch(authUser(user_id, token));
         }).catch((error) => {
           dispatch(addAlert("Could not log in."));
         });
@@ -35,10 +39,12 @@ exports.signupUser = (email, password) => {
   }
 }
 
-authUser = (user_id) => {
+authUser = (user_id, token, currentUser) => {
   return {
     type: 'AUTH_USER',
-    user_id
+    user_id,
+    token,
+    currentUser
   }
 }
 
