@@ -8,7 +8,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Image
 } from 'react-native';
 
 import {unauthUser} from '../actions'
@@ -73,6 +74,10 @@ var TodoList = React.createClass({
            <Icon name="plus" size={20} color="white"/>
          </TouchableOpacity>
        </View>
+
+       {/* <Image source={require('./bg3.jpg')} style={styles.background}> */}
+       <Image source={require('../img/bg3.jpg')} style={styles.background}>
+
        <ScrollView
           refreshControl={
             <RefreshControl
@@ -83,16 +88,26 @@ var TodoList = React.createClass({
           contentContainerStyle={styles.scrollViewContainer}>
           {renderTodos()}
         </ScrollView>
+
+        </Image>
       </View>
     )
   }
 })
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: null,
+    height: null,
+    backgroundColor: 'transparent'
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
+    alignSelf: 'stretch',
   },
   topBar: {
     padding: 16,
@@ -115,7 +130,11 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    // alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignSelf: 'stretch',
+    paddingTop: 20,
+
   }
 })
 

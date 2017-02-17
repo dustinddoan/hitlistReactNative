@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 
 import {loginUser, signupUser} from '../actions';
@@ -60,6 +61,7 @@ var Login = React.createClass({
       )
     } else {
       return (
+        <Image source={require('../img/bg2.jpg')} style={styles.background}>
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
@@ -97,6 +99,7 @@ var Login = React.createClass({
             </TouchableOpacity>
           </View>
         </View>
+        </Image>
       );
     }
 
@@ -104,18 +107,27 @@ var Login = React.createClass({
 });
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: null,
+    height: null,
+    backgroundColor: 'transparent'
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
+    alignSelf: 'stretch',
     paddingTop: 20,
-    backgroundColor: '#2ecc71'
+    // backgroundColor: '#2ecc71'
   },
   titleContainer: {
-    padding: 10
+    padding: 10,
+    justifyContent: 'center',
   },
   title: {
-    color: 'white',
+    color: 'black',
     fontSize: 35,
     marginTop: 20,
     marginBottom: 20
@@ -129,13 +141,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   textInput: {
-    height: 26
+    height: 26,
   },
   buttonContainer: {
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   button: {
     fontSize: 30,
