@@ -31,7 +31,7 @@ var NewTodo = React.createClass({
     if(newTodoText && newTodoText !== '') {
       console.log(this.state.newTodoText)
       console.log(this.props.token)
-      axios.post('https://hidden-plains-11034.herokuapp.com/v1/'+ this.props.user_id +'/todos',
+      axios.post('https://hidden-plains-11034.herokuapp.com/v1/users/'+ this.props.user_id +'/todos',
        {'text': this.state.newTodoText},
       //  {headers: {authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGE2M2E3YTNkMjMwZTA2MWY0MmEyMDgiLCJpYXQiOjE0ODcyOTQyNjI2Nzh9.cFSgUWaYyRe12ZQPtgxKf7n5J8quVMz1GiC1Xw-C8oQ'}
        {headers: {authorization: this.props.token}
