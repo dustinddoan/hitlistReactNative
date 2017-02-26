@@ -14,73 +14,76 @@ import {
 } from 'react-native';
 import {unauthUser} from '../actions'
 
-import {addTodo} from '../actions'
+import {createTodo} from '../actions'
 
 
 //TodoList components
-var NewTodo = React.createClass({
+var TodoList = React.createClass({
   getInitialState() {
     return {
-      newTodoText: undefined
+      newTodoText: undefined,
+      loading: false
     }
   },
   addNewTodo() {
-    var {newTodoText} = this.state
+    // console.log(this.state.newTodoText);
+    var {newTodoText} = this.state;
     var {dispatch} = this.props;
-
-    if(newTodoText && newTodoText !== '') {
-      console.log(this.state.newTodoText)
-      console.log(this.props.token)
-      axios.post('https://hidden-plains-11034.herokuapp.com/v1/users/'+ this.props.user_id +'/todos',
-       {'text': this.state.newTodoText},
-      //  {headers: {authorization: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGE2M2E3YTNkMjMwZTA2MWY0MmEyMDgiLCJpYXQiOjE0ODcyOTQyNjI2Nzh9.cFSgUWaYyRe12ZQPtgxKf7n5J8quVMz1GiC1Xw-C8oQ'}
-       {headers: {authorization: this.props.token}
-      }).then((response) => {
-         console.log(response.data.todos)
-         dispatch(addTodo(response.data.todos))
-         this.props.navigator.pop();
-
-       })
-       .catch((error) => {
-         console.log(error);
-       })
-
+    if (newTodoText && newTodoText != "") {
+      this.setState({loading: true});
+      dispatch(createTodo(newTodoText)).then(() => {
+        this.setState({loading: false});
+        this.props.navigator.pop();
+      });
     }
-
   },
   onBack() {
     this.props.navigator.pop()
   },
   render() {
 
+    var renderScrollViewOrLoading = () => {
+      if (this.state.loading) {
+        return (
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text>
+              Creating todo...
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <ScrollView
+            automaticallyAdjustContentInsets={false}
+            contentContainerStyle={styles.scrollViewContainer}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                onChangeText={(newTodoText) => {
+                  this.setState({newTodoText})
+                }}
+                placeholder="New To-Do Text"
+                style={styles.input}/>
+            </View>
+          </ScrollView>
+        );
+      }
+    }
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
           <TouchableOpacity onPress={this.onBack}>
             <Icon name="chevron-left" size={20} color="white"/>
           </TouchableOpacity>
-
           <Text style={styles.title}>
-            Add New ToDo
+            New To-Do
           </Text>
           <TouchableOpacity onPress={this.addNewTodo}>
             <Icon name="check" size={20} color="white"/>
           </TouchableOpacity>
         </View>
-        <ScrollView
-          automaticallyAdjustContentInsets={false}
-          contentContainerStyle={styles.scrollViewContainer}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              onChangeText={(newTodoText) => {
-                this.setState({newTodoText})
-              }}
-              placeholder="New To-Do Text"
-              style={styles.input}/>
-          </View>
-        </ScrollView>
+        {renderScrollViewOrLoading()}
       </View>
-    )
+    );
   }
 })
 
@@ -119,10 +122,10 @@ const styles = StyleSheet.create({
 var mapStateToProps = (state) => {
   return {
     todos: state.todos,
-    user_id: state.auth.user_id,
-    token: state.auth.token,
-    currentUser: state.auth.currentUser
+    // user_id: state.auth.user_id,
+    // token: state.auth.token,
+    // currentUser: state.auth.currentUser
   }
 }
 
-module.exports = connect(mapStateToProps)(NewTodo)
+module.exports = connect(mapStateToProps)(TodoList)

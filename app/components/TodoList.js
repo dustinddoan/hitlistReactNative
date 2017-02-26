@@ -12,7 +12,7 @@ import {
   Image
 } from 'react-native';
 
-import {unauthUser} from '../actions'
+import {unauthUser, getTodos} from '../actions'
 import NewTodo from './NewTodo'
 
 //TodoItem
@@ -40,18 +40,17 @@ var TodoList = React.createClass({
     this.props.navigator.push({
       component: NewTodo,
       title: 'New Todo',
-      navigationBarHidden: true,
-      passProps: {
-        token: this.props.token,
-        user_id: this.props.user
-      }
+      navigationBarHidden: true
     })
   },
   onRefresh() {
-
+    this.setState({refreshing: true})
+    this.props.dispatch(getTodos).then(() => {
+      this.setState({refreshing: false})
+    })
   },
   render() {
-    console.log(this.props.todos);
+    console.log('todos: ',this.props.todos);
     //return list of components
     var renderTodos = () => {
       return this.props.todos.map((todo) => {
