@@ -18,7 +18,7 @@ import {createTodo} from '../actions'
 
 
 //TodoList components
-var TodoList = React.createClass({
+var NewTodo = React.createClass({
   getInitialState() {
     return {
       newTodoText: undefined,
@@ -128,4 +128,4 @@ var mapStateToProps = (state) => {
   }
 }
 
-module.exports = connect(mapStateToProps)(TodoList)
+module.exports = connect(mapStateToProps)(NewTodo)

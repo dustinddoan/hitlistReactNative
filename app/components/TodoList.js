@@ -12,19 +12,40 @@ import {
   Image
 } from 'react-native';
 
-import {unauthUser, getTodos} from '../actions'
+import {unauthUser, getTodos, deleteTodo} from '../actions'
 import NewTodo from './NewTodo'
 
 //TodoItem
-var TodoItem = React.createClass({
+var TodoItem = connect()(React.createClass({
+  getInitialState() {
+    return {
+      deleting: false
+    }
+  },
+  onDelete() {
+    this.setState({deleting: true})
+    this.props.dispatch(deleteTodo(this.props.id))
+  },
   render() {
+    var renderDeleteButton = () => {
+      if (!this.state.deleting) {
+        return (
+          <TouchableOpacity onPress={this.onDelete}>
+            <Icon name="x" size={15} color="#2ecc71"/>
+
+          </TouchableOpacity>
+        )
+      }
+    }
     return (
       <View style={styles.todoContainer}>
         <Text>{this.props.text}</Text>
+        {renderDeleteButton()}
+
       </View>
     )
   }
-})
+}))
 
 //TodoList components
 var TodoList = React.createClass({
@@ -129,8 +150,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: 'center',
     alignSelf: 'stretch',
     paddingTop: 20,
 

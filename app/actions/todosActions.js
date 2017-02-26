@@ -32,6 +32,29 @@ exports.createTodo = (text) => {
     })
   }
 }
+exports.deleteTodo = (todo_id) => {
+  return function(dispatch) {
+    return AsyncStorage.multiGet([storageUserId, storageToken], (err, stores) => {
+
+        // console.log(stores);
+        // console.log(stores[0][1]);
+        // console.log(stores[1][1]);
+        let username = stores[0][1]
+        let password = stores[1][1]
+        console.log('username: ', username);
+        console.log('password: ', password);
+        return axios.delete(TODO_URL(username, todo_id), {
+          headers: {authorization: password}
+        }).then((response) => {
+          console.log('response: ', response.data.todo);
+          dispatch(removeTodo(todo_id))
+        }).catch((err) => {
+          console.log(err);
+        })
+
+    })
+  }
+}
 exports.getTodos = function(dispatch) {
     return AsyncStorage.multiGet([storageUserId, storageToken], (err, stores) => {
 
@@ -74,6 +97,12 @@ var addTodo = (newTodo) => {
   return {
     type: 'ADD_TODO',
     newTodo
+  }
+}
+var removeTodo = (todo_id) => {
+  return {
+    type: 'REMOVE_TODO',
+    todo_id
   }
 }
 var setTodos = (todos) => {
