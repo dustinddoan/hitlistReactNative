@@ -16,11 +16,11 @@ exports.createTodo = (text) => {
         // console.log(stores);
         // console.log(stores[0][1]);
         // console.log(stores[1][1]);
-        let username = stores[0][1]
+        let user_id = stores[0][1]
         let password = stores[1][1]
-        console.log('username: ', username);
+        console.log('username: ', user_id);
         console.log('password: ', password);
-        return axios.post(TODOS_URL(username), {text}, {
+        return axios.post(TODOS_URL(user_id), {text}, {
           headers: {authorization: password}
         }).then((response) => {
           console.log('response: ', response.data.todo);
@@ -39,17 +39,18 @@ exports.deleteTodo = (todo_id) => {
         // console.log(stores);
         // console.log(stores[0][1]);
         // console.log(stores[1][1]);
-        let username = stores[0][1]
+        let user_id = stores[0][1]
         let password = stores[1][1]
-        console.log('username: ', username);
-        console.log('password: ', password);
-        return axios.delete(TODO_URL(username, todo_id), {
+        // console.log('username: ', username);
+        // console.log('password: ', password);
+        return axios.delete(TODO_URL(user_id, todo_id), {
           headers: {authorization: password}
         }).then((response) => {
-          console.log('response: ', response.data.todo);
+          // console.log('response: ', response.data.todo);
           dispatch(removeTodo(todo_id))
         }).catch((err) => {
           console.log(err);
+          dispatch(addAlert("Couldn't delete todo."));
         })
 
     })

@@ -2,11 +2,7 @@
 //   {_id: '123345345435', text:'workout'},
 //   {_id: '1233434345435', text:'dog walk'}
 // ]
-var defaultState = [
-
-]
-
-module.exports = (state=defaultState, action) => {
+module.exports = (state=[], action) => {
   switch(action.type) {
     case 'ADD_TODO':
       return [
