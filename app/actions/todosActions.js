@@ -26,6 +26,7 @@ exports.createTodo = (text) => {
           console.log('response: ', response.data.todo);
           dispatch(addTodo(response.data.todo))
         }).catch((err) => {
+          dispatch(addAlert('Could not create Todo'))
           console.log(err);
         })
 
@@ -72,6 +73,7 @@ exports.getTodos = function(dispatch) {
           console.log('response: ', response.data.todos);
           dispatch(setTodos(response.data.todos))
         }).catch((err) => {
+          dispatch(addAlert('Could not get Todos List'))
           console.log(err);
         })
 

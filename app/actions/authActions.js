@@ -25,7 +25,7 @@ exports.loginUser = (email, password) => {
             dispatch(authUser(user_id, token, user))
           })
           .catch((err) => {
-
+            dispatch(addAlert('Could not log in'))
             console.log(err);
           })
       })
@@ -46,7 +46,7 @@ exports.signupUser = (email, password) => {
             dispatch(authUser(user_id, token, user))
           })
           .catch((err) => {
-
+            dispatch(addAlert('Could not sign up'))
             console.log(err);
           })
       })
